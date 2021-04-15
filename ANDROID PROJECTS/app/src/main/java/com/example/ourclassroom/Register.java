@@ -11,19 +11,29 @@ import android.text.style.ClickableSpan;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 
 public class Register extends AppCompatActivity  implements AdapterView.OnItemSelectedListener {
 
 
-
-
-
+EditText txt_fullname,txt_mobileno,txt_email,txt_enrollmentno,txt_password;
+Button signup;
+    DatabaseReference databaseReference;
+FirebaseAuth firebaseAuth;
 
 
     @Override
@@ -34,6 +44,72 @@ public class Register extends AppCompatActivity  implements AdapterView.OnItemSe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+
+        // Type Casting
+        txt_fullname =(EditText)findViewById(R.id.txt_fullname);
+        txt_mobileno =(EditText)findViewById(R.id.txt_mobileno);
+        txt_email =(EditText)findViewById(R.id.txt_email);
+        txt_enrollmentno =(EditText)findViewById(R.id.txt_enrollmentno);
+        txt_password =(EditText)findViewById(R.id.txt_password);
+        signup =(Button) findViewById(R.id.signup);
+
+
+databaseReference = FirebaseDatabase.getInstance().getReference("Students");
+
+firebaseAuth =FirebaseAuth.getInstance();
+// signup btn event
+
+signup.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+
+        final String fullname=txt_fullname.getText().toString();
+        final String mobileno=txt_mobileno.getText().toString();
+        final String email=txt_email.getText().toString();
+        final String enrollmentno=txt_enrollmentno.getText().toString();
+        String password=txt_password.getText().toString();
+
+
+        firebaseAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener( Register.this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+
+                            student information =new student(
+                                    fullname,
+                                    mobileno,
+                                    email,
+                                    enrollmentno
+                            );
+
+                            FirebaseDatabase.getInstance().getReference("Students")
+                                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                    .setValue(information).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+
+
+                                    Toast.makeText(Register.this, "User Registered", Toast.LENGTH_SHORT).show();
+                                    startActivity(new Intent(getApplicationContext(),Homenavigation.class));
+                                }
+                            });
+
+
+                        } else {
+                            Toast.makeText(Register.this, "Failed", Toast.LENGTH_SHORT).show();
+
+                        }
+                    }
+                });
+
+
+
+    }
+});
+
+
+
 
 
 
