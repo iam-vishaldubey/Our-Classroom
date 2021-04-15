@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">Our Classroom</string>
+    <string name="spalshimage">spalshimage </string>
+    <string name="our_classroom">OUR CLASSROOM</string>
+    <string name="version_1_0">Version 1.0</string>
+    <string name="create_account">CREATE ACCOUNT</string>
+    <string name="enrollment_no">Enrollment No.</string>
+    <string name="sign_up">SIGN UP</string>
+    <string name="already_have_an_account_log_in">Already have an account ? LOG IN</string>
+    <string name="password">Password</string>
+    <string name="full_name">Full Name</string>
+
+
+    <string-array name="branches">
+        <item>CO1</item>
+        <item>CO2</item>
+        <item>CO3</item>
+        <item>IF1</item>
+        <item>IF2</item>
+        <item>IF3</item>
+        <item>EJ1</item>
+        <item>EJ2</item>
+        <item>EJ3</item>
+        <item>MECH1</item>
+        <item>MECH2</item>
+        <item>MECH3</item>
+        <item>CV1</item>
+        <item>CV2</item>
+        <item>CV3</item>
+    </string-array>
+
+
+</resources>
